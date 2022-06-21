@@ -19,7 +19,7 @@ require('./startup/db')();
 require('./startup/middleware')(app);
 
 //PUBLIC ROUTES
-// require('./routes')(app);
+require('./routes')(app);
 
 //ERROR HANDLER
 app.use(require('./_utils/error_handler'));
