@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { jwtPrivateKey, authHeader } = require('../_config');
 
-const Supporter = require('../models/supporter.model');
+const Member = require('../models/member.model');
 const Encryption = require('../_utils/encryption');
 
 exports.authTokenForRoutes = async (req, _, next) => {
@@ -18,7 +18,7 @@ exports.authTokenForRoutes = async (req, _, next) => {
     if (!decodeToken) return next({ codeName: 'InvalidToken' });
 
     //check if user exist.
-    const user = await Supporter.findOne({ _id: decodeToken._id, isDeleted: false, isAccountApproved: true });
+    const user = await Member.findOne({ _id: decodeToken._id, isDeleted: false });
     if (!user) return next({ codeName: 'InvalidToken' });
 
     req.user = user;
@@ -43,10 +43,9 @@ exports.authToken = async (req, _, next) => {
     if (!decodeToken) return next({ codeName: 'InvalidToken' });
 
     //check if user exist.
-    const user = await Supporter.findOne({
+    const user = await Member.findOne({
       _id: decodeToken._id,
       isDeleted: false,
-      isAccountApproved: true,
     }).select('-isDeleted -isAccountApproved -__v');
     if (!user) return next({ codeName: 'InvalidToken' });
 
@@ -71,11 +70,10 @@ exports.authUsernameAndPassword = async (req, _, next) => {
     const payload = req.body.payload;
 
     //check if username exist.
-    const user = await Supporter.findOne({
+    const user = await Member.findOne({
       'account_info.username': payload.username,
       isDeleted: false,
-      isAccountApproved: true,
-    }).select('-isDeleted -isAccountApproved -__v');
+    }).select('-isDeleted -__v');
 
     if (!user) return next({ codeName: 'NotFound' });
 

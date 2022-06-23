@@ -39,41 +39,31 @@ const Schema = new mongoose.Schema(
         default: null,
       },
     },
-    isAccountApproved: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
     added_by: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'supporters',
+      ref: 'members',
       default: null,
     },
     deleted_by: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'supporters',
+      ref: 'members',
       default: null,
     },
     last_updated_by: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'supporters',
-      default: null,
-    },
-    approved_by: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'supporters',
+      ref: 'members',
       default: null,
     },
     photo: { type: String, default: '' },
     isDeleted: { type: Boolean, default: false },
   },
   {
-    collection: 'supporters',
+    collection: 'members',
     timestamps: true,
     minimize: false,
   }
 );
 
-const Supporter = mongoose.model('supporters', Schema);
+const Member = mongoose.model('members', Schema);
 
-module.exports = Supporter;
+module.exports = Member;

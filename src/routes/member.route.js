@@ -13,9 +13,17 @@ router.post('/upload/photo', [multer.single('file'), uploadFile], async (req, re
   }
 });
 
-const Supporter = require('../controllers/supporter.controller');
+const Member = require('../controllers/member.controller');
 
 //Public Routes
-router.post('/', Supporter.create);
+router.post('/count', Member.count);
+
+router.post('/', Member.create);
+
+router.get('/', Member.read);
+
+router.put('/:id', Member.update);
+
+router.delete('/:id', Member.delete);
 
 module.exports = router;
